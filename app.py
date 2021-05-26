@@ -124,8 +124,10 @@ download.download_from_drive()
 print('downloading model')
 
 ## Generate Captions !!!
-model = ImageCaptionModel(16, 4, 8360, 512)
-model = torch.load('./BestModel1', map_location=torch.device('cpu'))
+model = ImageCaptionModel(16, 4, 8812, 512)
+model.load_state_dict(torch.load("model_state.pth"))
+model.eval()
+# model = torch.load('./BestModel1', map_location=torch.device('cpu'))
 print('loading model')
 start_token = word_to_index['<start>']
 end_token = word_to_index['<end>']
