@@ -100,7 +100,9 @@ class ImageCaptionModel(nn.Module):
 
 
 
-
+# Flask constructor takes the name of
+# current module (__name__) as argument.
+app = Flask(__name__)
 
 
 # @app.route('/init')
@@ -117,11 +119,20 @@ word_to_index = pickle.load(dbfile)
 print('loading wordtoindex')
 dbfile.close()
 
+# download model from google driver
+download.download_from_drive()
+print('downloading model')
 
+## Generate Captions !!!
+model = ImageCaptionModel(16, 4, 8360, 512)
+model = torch.load('./BestModel1', map_location=torch.device('cpu'))
+print('loading model')
+start_token = word_to_index['<start>']
+end_token = word_to_index['<end>']
+pad_token = word_to_index['<pad>']
+print(start_token, end_token, pad_token)
+K = 1
 
-# Flask constructor takes the name of
-# current module (__name__) as argument.
-app = Flask(__name__)
 
 # The route() function of the Flask class is a decorator,
 # which tells the application which URL should call
@@ -129,7 +140,8 @@ app = Flask(__name__)
 @app.route('/')
 # ‘/’ URL is bound with hello_world() function.
 def hello_world():
-    # return 'Hello World'
+
+
     return jsonify({'status': 'Server 2 is UP ...'})
 
 
@@ -180,22 +192,9 @@ def foo():
 
 # main driver function
 if __name__ == '__main__':
-    # download model from google driver
-    download.download_from_drive()
-    print('downloading model')
-
-    ## Generate Captions !!!
-    model = ImageCaptionModel(16, 4, 8360, 512)
-    model = torch.load('./BestModel1')#, map_location=torch.device('cpu'))
-    print('loading model')
-    start_token = word_to_index['<start>']
-    end_token = word_to_index['<end>']
-    pad_token = word_to_index['<pad>']
-    print(start_token, end_token, pad_token)
-    K = 1
     # run() method of Flask class runs the application
     # on the local development server.
-    app.run(debug=True, use_reloader=False)
+    app.run(use_reloader=False)
 
 
 
