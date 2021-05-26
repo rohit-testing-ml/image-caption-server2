@@ -123,7 +123,7 @@ print('downloading model')
 
 ## Generate Captions !!!
 model = ImageCaptionModel(16, 4, 8360, 512)
-# model = torch.load('BestModel.pt', map_location=torch.device('cpu'))
+model = torch.load('BestModel.pt')#, map_location=torch.device('cpu'))
 print('loading model')
 start_token = word_to_index['<start>']
 end_token = word_to_index['<end>']
