@@ -104,45 +104,47 @@ class ImageCaptionModel(nn.Module):
 app = Flask(__name__)
 
 
-# @app.route('/init')
-# def function_to_run_only_once():
-    # loading pickle data
+# # @app.route('/init')
+# # def function_to_run_only_once():
+#     # loading pickle data
 
-dbfile = open('index_to_word', 'rb')
-index_to_word = pickle.load(dbfile)
-print('loading indextoword')
-dbfile.close()
+# dbfile = open('index_to_word', 'rb')
+# index_to_word = pickle.load(dbfile)
+# print('loading indextoword')
+# dbfile.close()
 
-dbfile = open('word_to_index', 'rb')
-word_to_index = pickle.load(dbfile)
-print('loading wordtoindex')
-dbfile.close()
+# dbfile = open('word_to_index', 'rb')
+# word_to_index = pickle.load(dbfile)
+# print('loading wordtoindex')
+# dbfile.close()
 
-# download model from google driver
-download.download_from_drive()
-print('downloading model')
+# # download model from google driver
+# download.download_from_drive()
+# print('downloading model')
 
-## Generate Captions !!!
-model = ImageCaptionModel(16, 4, 8812, 512)
-model.load_state_dict(torch.load("./model_state.pth", map_location=torch.device('cpu')) )
-model.eval()
-print('loading model')
-start_token = word_to_index['<start>']
-end_token = word_to_index['<end>']
-pad_token = word_to_index['<pad>']
-print(start_token, end_token, pad_token)
-K = 1
+# ## Generate Captions !!!
+# model = ImageCaptionModel(16, 4, 8812, 512)
+# model.load_state_dict(torch.load("./model_state.pth", map_location=torch.device('cpu')) )
+# model.eval()
+# print('loading model')
+# start_token = word_to_index['<start>']
+# end_token = word_to_index['<end>']
+# pad_token = word_to_index['<pad>']
+# print(start_token, end_token, pad_token)
+# K = 1
 
 print('here1')
+
+
 # The route() function of the Flask class is a decorator,
 # which tells the application which URL should call
 # the associated function.
+
 @app.route('/')
 # ‘/’ URL is bound with hello_world() function.
 def hello_world():
-
-
-    return jsonify({'status': 'Server 2 is UP ...'})
+    # return 'Hello World'
+    return "Hello this is the new version!"
 
 
 # @app.route('/foo', methods=['POST'])
@@ -195,6 +197,5 @@ if __name__ == '__main__':
     # run() method of Flask class runs the application
     # on the local development server.
     app.run()
-
 
 
