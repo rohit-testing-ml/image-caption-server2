@@ -46,7 +46,6 @@ class PositionalEncoding(nn.Module):
         x = x + self.pe
         return self.dropout(x)
 
-
 class ImageCaptionModel(nn.Module):
     def __init__(self, n_head, n_decoder_layer, vocab_size, embedding_size):
         super(ImageCaptionModel, self).__init__()
@@ -146,49 +145,49 @@ def hello_world():
     return jsonify({'status': 'Server 2 is UP ...'})
 
 
-@app.route('/foo', methods=['POST'])
-def foo():
-    data = request.json
-    image_data_torch = torch.tensor(data['image_embedding'])
-    print(image_data_torch.shape)
+# @app.route('/foo', methods=['POST'])
+# def foo():
+#     data = request.json
+#     image_data_torch = torch.tensor(data['image_embedding'])
+#     print(image_data_torch.shape)
 
-    img_embed = image_data_torch.permute(0, 2, 3, 1)
-    img_embed = img_embed.view(img_embed.size(0), -1, img_embed.size(3))
+#     img_embed = image_data_torch.permute(0, 2, 3, 1)
+#     img_embed = img_embed.view(img_embed.size(0), -1, img_embed.size(3))
 
-    input_seq = [pad_token] * max_seq_len
-    input_seq[0] = start_token
+#     input_seq = [pad_token] * max_seq_len
+#     input_seq[0] = start_token
 
-    input_seq = torch.tensor(input_seq).unsqueeze(0)
-    predicted_sentence = []
-    # return {'tt':"ok"}
-    with torch.no_grad():
-        for eval_iter in range(0, max_seq_len):
+#     input_seq = torch.tensor(input_seq).unsqueeze(0)
+#     predicted_sentence = []
+#     # return {'tt':"ok"}
+#     with torch.no_grad():
+#         for eval_iter in range(0, max_seq_len):
 
-            output, padding_mask = model.forward(img_embed, input_seq)
+#             output, padding_mask = model.forward(img_embed, input_seq)
 
-            output = output[eval_iter, 0, :]
+#             output = output[eval_iter, 0, :]
 
-            values = torch.topk(output, K).values.tolist()
-            indices = torch.topk(output, K).indices.tolist()
+#             values = torch.topk(output, K).values.tolist()
+#             indices = torch.topk(output, K).indices.tolist()
 
-            next_word_index = random.choices(indices, values, k=1)[0]
+#             next_word_index = random.choices(indices, values, k=1)[0]
 
-            next_word = index_to_word[next_word_index]
+#             next_word = index_to_word[next_word_index]
 
-            input_seq[:, eval_iter + 1] = next_word_index
+#             input_seq[:, eval_iter + 1] = next_word_index
 
-            if next_word == '<end>':
-                break
+#             if next_word == '<end>':
+#                 break
 
-            predicted_sentence.append(next_word)
-    print("\n")
-    print("Predicted caption : ")
-    predicted_sentence[0]=predicted_sentence[0][0].upper()+predicted_sentence[0][1:]
-    sentence = " ".join(predicted_sentence + ['.'])
-    print(sentence)
+#             predicted_sentence.append(next_word)
+#     print("\n")
+#     print("Predicted caption : ")
+#     predicted_sentence[0]=predicted_sentence[0][0].upper()+predicted_sentence[0][1:]
+#     sentence = " ".join(predicted_sentence + ['.'])
+#     print(sentence)
 
 
-    return {'prediction': f'{sentence}'}
+#     return {'prediction': f'{sentence}'}
 
 
 # main driver function
