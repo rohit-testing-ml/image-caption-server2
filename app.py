@@ -113,14 +113,14 @@ class ImageCaptionModel(nn.Module):
 
 
 
-# ## Generate Captions !!!
-# model=ImageCaptionModel(16, 4, 8360, 512)
-# model = torch.load('BestModel',map_location=torch.device('cpu'))
-# start_token = word_to_index['<start>']
-# end_token = word_to_index['<end>']
-# pad_token = word_to_index['<pad>']
-# print(start_token, end_token, pad_token)
-# K = 1
+## Generate Captions !!!
+model=ImageCaptionModel(16, 4, 8360, 512)
+model = torch.load('BestModel',map_location=torch.device('cpu'))
+start_token = word_to_index['<start>']
+end_token = word_to_index['<end>']
+pad_token = word_to_index['<pad>']
+print(start_token, end_token, pad_token)
+K = 1
 
 
 
