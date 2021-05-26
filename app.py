@@ -11,8 +11,8 @@ import random
 max_seq_len=34
 pd.set_option('display.max_colwidth', None)
 
-#download model from google driver
-download.download_from_drive()
+print("here")
+
 
 
 # Importing flask module in the project is mandatory
@@ -20,18 +20,8 @@ download.download_from_drive()
 from flask import Flask, request, jsonify
 import json
 
-# Flask constructor takes the name of
-# current module (__name__) as argument.
-app = Flask(__name__)
 
-#loading pickle data
-dbfile = open('index_to_word', 'rb')
-index_to_word = pickle.load(dbfile)
-dbfile.close()
 
-dbfile = open('word_to_index', 'rb')
-word_to_index = pickle.load(dbfile)
-dbfile.close()
 
 #creating model template
 class PositionalEncoding(nn.Module):
@@ -113,20 +103,37 @@ class ImageCaptionModel(nn.Module):
 
 
 
+# @app.route('/init')
+# def function_to_run_only_once():
+    # loading pickle data
+
+dbfile = open('index_to_word', 'rb')
+index_to_word = pickle.load(dbfile)
+print('loading indextoword')
+dbfile.close()
+
+dbfile = open('word_to_index', 'rb')
+word_to_index = pickle.load(dbfile)
+print('loading wordtoindex')
+dbfile.close()
+
+# download model from google driver
+download.download_from_drive()
+print('downloading model')
+
 ## Generate Captions !!!
-model=ImageCaptionModel(16, 4, 8360, 512)
-model = torch.load('BestModel',map_location=torch.device('cpu'))
+model = ImageCaptionModel(16, 4, 8360, 512)
+model = torch.load('BestModel.pt', map_location=torch.device('cpu'))
+print('loading model')
 start_token = word_to_index['<start>']
 end_token = word_to_index['<end>']
 pad_token = word_to_index['<pad>']
 print(start_token, end_token, pad_token)
 K = 1
 
-
-
-
-
-
+# Flask constructor takes the name of
+# current module (__name__) as argument.
+app = Flask(__name__)
 
 # The route() function of the Flask class is a decorator,
 # which tells the application which URL should call
@@ -135,7 +142,7 @@ K = 1
 # ‘/’ URL is bound with hello_world() function.
 def hello_world():
     # return 'Hello World'
-    return "Server 2 is UP ..."
+    return jsonify({'status': 'Server 2 is UP ...'})
 
 
 @app.route('/foo', methods=['POST'])
@@ -188,3 +195,7 @@ if __name__ == '__main__':
     # run() method of Flask class runs the application
     # on the local development server.
     app.run()
+
+
+
+
