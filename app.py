@@ -125,7 +125,7 @@ print('downloading model')
 
 ## Generate Captions !!!
 model = ImageCaptionModel(16, 4, 8812, 512)
-model.load_state_dict(torch.load("model_state.pth"))
+model.load_state_dict(torch.load("model_state.pth", map_location=torch.device('cpu')) )
 model.eval()
 # model = torch.load('./BestModel1', map_location=torch.device('cpu'))
 print('loading model')
@@ -197,7 +197,6 @@ if __name__ == '__main__':
     # run() method of Flask class runs the application
     # on the local development server.
     app.run(use_reloader=False)
-
 
 
 
