@@ -1,5 +1,4 @@
 -f https://download.pytorch.org/whl/torch_stable.html
-python==3.8
 Flask==2.0.1
 pandas==1.2.4
 torchvision==0.9.1+cpu
