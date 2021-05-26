@@ -125,9 +125,8 @@ print('downloading model')
 
 ## Generate Captions !!!
 model = ImageCaptionModel(16, 4, 8812, 512)
-model.load_state_dict(torch.load("model_state.pth", map_location=torch.device('cpu')) )
+model.load_state_dict(torch.load("./model_state.pth", map_location=torch.device('cpu')) )
 model.eval()
-# model = torch.load('./BestModel1', map_location=torch.device('cpu'))
 print('loading model')
 start_token = word_to_index['<start>']
 end_token = word_to_index['<end>']
@@ -135,7 +134,7 @@ pad_token = word_to_index['<pad>']
 print(start_token, end_token, pad_token)
 K = 1
 
-
+print('here1')
 # The route() function of the Flask class is a decorator,
 # which tells the application which URL should call
 # the associated function.
@@ -196,7 +195,7 @@ def foo():
 if __name__ == '__main__':
     # run() method of Flask class runs the application
     # on the local development server.
-    app.run(use_reloader=False)
+    app.run()
 
 
 
