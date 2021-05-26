@@ -12,7 +12,7 @@ max_seq_len=34
 pd.set_option('display.max_colwidth', None)
 
 #download model from google driver
-# download.download_from_drive()
+download.download_from_drive()
 
 
 # Importing flask module in the project is mandatory
