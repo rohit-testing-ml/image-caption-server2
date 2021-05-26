@@ -104,34 +104,31 @@ class ImageCaptionModel(nn.Module):
 app = Flask(__name__)
 
 
-# # @app.route('/init')
-# # def function_to_run_only_once():
-#     # loading pickle data
 
-# dbfile = open('index_to_word', 'rb')
-# index_to_word = pickle.load(dbfile)
-# print('loading indextoword')
-# dbfile.close()
+dbfile = open('index_to_word', 'rb')
+index_to_word = pickle.load(dbfile)
+print('loading indextoword')
+dbfile.close()
 
-# dbfile = open('word_to_index', 'rb')
-# word_to_index = pickle.load(dbfile)
-# print('loading wordtoindex')
-# dbfile.close()
+dbfile = open('word_to_index', 'rb')
+word_to_index = pickle.load(dbfile)
+print('loading wordtoindex')
+dbfile.close()
 
-# # download model from google driver
-# download.download_from_drive()
-# print('downloading model')
+# download model from google driver
+download.download_from_drive()
+print('downloading model')
 
-# ## Generate Captions !!!
-# model = ImageCaptionModel(16, 4, 8812, 512)
-# model.load_state_dict(torch.load("./model_state.pth", map_location=torch.device('cpu')) )
-# model.eval()
-# print('loading model')
-# start_token = word_to_index['<start>']
-# end_token = word_to_index['<end>']
-# pad_token = word_to_index['<pad>']
-# print(start_token, end_token, pad_token)
-# K = 1
+## Generate Captions !!!
+model = ImageCaptionModel(16, 4, 8812, 512)
+model.load_state_dict(torch.load("./model_state.pth", map_location=torch.device('cpu')) )
+model.eval()
+print('loading model')
+start_token = word_to_index['<start>']
+end_token = word_to_index['<end>']
+pad_token = word_to_index['<pad>']
+print(start_token, end_token, pad_token)
+K = 1
 
 print('here1')
 
@@ -147,49 +144,49 @@ def hello_world():
     return "Hello this is the new version!"
 
 
-# @app.route('/foo', methods=['POST'])
-# def foo():
-#     data = request.json
-#     image_data_torch = torch.tensor(data['image_embedding'])
-#     print(image_data_torch.shape)
+@app.route('/foo', methods=['POST'])
+def foo():
+    data = request.json
+    image_data_torch = torch.tensor(data['image_embedding'])
+    print(image_data_torch.shape)
 
-#     img_embed = image_data_torch.permute(0, 2, 3, 1)
-#     img_embed = img_embed.view(img_embed.size(0), -1, img_embed.size(3))
+    img_embed = image_data_torch.permute(0, 2, 3, 1)
+    img_embed = img_embed.view(img_embed.size(0), -1, img_embed.size(3))
 
-#     input_seq = [pad_token] * max_seq_len
-#     input_seq[0] = start_token
+    input_seq = [pad_token] * max_seq_len
+    input_seq[0] = start_token
 
-#     input_seq = torch.tensor(input_seq).unsqueeze(0)
-#     predicted_sentence = []
-#     # return {'tt':"ok"}
-#     with torch.no_grad():
-#         for eval_iter in range(0, max_seq_len):
+    input_seq = torch.tensor(input_seq).unsqueeze(0)
+    predicted_sentence = []
+    # return {'tt':"ok"}
+    with torch.no_grad():
+        for eval_iter in range(0, max_seq_len):
 
-#             output, padding_mask = model.forward(img_embed, input_seq)
+            output, padding_mask = model.forward(img_embed, input_seq)
 
-#             output = output[eval_iter, 0, :]
+            output = output[eval_iter, 0, :]
 
-#             values = torch.topk(output, K).values.tolist()
-#             indices = torch.topk(output, K).indices.tolist()
+            values = torch.topk(output, K).values.tolist()
+            indices = torch.topk(output, K).indices.tolist()
 
-#             next_word_index = random.choices(indices, values, k=1)[0]
+            next_word_index = random.choices(indices, values, k=1)[0]
 
-#             next_word = index_to_word[next_word_index]
+            next_word = index_to_word[next_word_index]
 
-#             input_seq[:, eval_iter + 1] = next_word_index
+            input_seq[:, eval_iter + 1] = next_word_index
 
-#             if next_word == '<end>':
-#                 break
+            if next_word == '<end>':
+                break
 
-#             predicted_sentence.append(next_word)
-#     print("\n")
-#     print("Predicted caption : ")
-#     predicted_sentence[0]=predicted_sentence[0][0].upper()+predicted_sentence[0][1:]
-#     sentence = " ".join(predicted_sentence + ['.'])
-#     print(sentence)
+            predicted_sentence.append(next_word)
+    print("\n")
+    print("Predicted caption : ")
+    predicted_sentence[0]=predicted_sentence[0][0].upper()+predicted_sentence[0][1:]
+    sentence = " ".join(predicted_sentence + ['.'])
+    print(sentence)
 
 
-#     return {'prediction': f'{sentence}'}
+    return {'prediction': f'{sentence}'}
 
 
 # main driver function
