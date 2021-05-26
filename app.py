@@ -12,7 +12,7 @@ max_seq_len=34
 pd.set_option('display.max_colwidth', None)
 
 #download model from google driver
-download.download_from_drive()
+# download.download_from_drive()
 
 
 # Importing flask module in the project is mandatory
@@ -113,14 +113,14 @@ class ImageCaptionModel(nn.Module):
 
 
 
-## Generate Captions !!!
-model=ImageCaptionModel(16, 4, 8360, 512)
-model = torch.load('BestModel',map_location=torch.device('cpu'))
-start_token = word_to_index['<start>']
-end_token = word_to_index['<end>']
-pad_token = word_to_index['<pad>']
-print(start_token, end_token, pad_token)
-K = 1
+# ## Generate Captions !!!
+# model=ImageCaptionModel(16, 4, 8360, 512)
+# model = torch.load('BestModel',map_location=torch.device('cpu'))
+# start_token = word_to_index['<start>']
+# end_token = word_to_index['<end>']
+# pad_token = word_to_index['<pad>']
+# print(start_token, end_token, pad_token)
+# K = 1
 
 
 
