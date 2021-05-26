@@ -135,7 +135,7 @@ K = 1
 # ‘/’ URL is bound with hello_world() function.
 def hello_world():
     # return 'Hello World'
-    return jsonify({'status': 'Server 2 is UP ...'})
+    return "Server 2 is UP ..."
 
 
 @app.route('/foo', methods=['POST'])
